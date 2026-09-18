@@ -3,10 +3,13 @@
 REM Upstream CMakeLists declares CMAKE_MINIMUM_REQUIRED(VERSION 2.8); CMake 4.x
 REM refuses a project minimum below 3.5, so opt in explicitly.
 REM MSVC picks up compat/windows for the sys/queue.h shim.
+REM The upstream headers carry no dllexport annotations, so without this the DLL
+REM is linked with no exports and no import library is produced.
 cmake -B _build -G Ninja %CMAKE_ARGS% ^
     -DCMAKE_POLICY_VERSION_MINIMUM=3.5 ^
     -DSHARED=1 ^
     -DLSHPACK_XXH=1 ^
+    -DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=ON ^
     .
 if errorlevel 1 exit 1
 
