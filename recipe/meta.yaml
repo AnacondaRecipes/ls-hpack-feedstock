@@ -11,8 +11,6 @@ source:
 
 build:
   number: 0
-  # build.sh installs a Unix shared library (.dylib/.so); no Windows install path upstream.
-  skip: true  # [win]
   run_exports:
     - {{ pin_subpackage(name, max_pin='x.x.x') }}
 
@@ -25,9 +23,13 @@ requirements:
 
 test:
   commands:
-    - test -f ${PREFIX}/lib/libls-hpack${SHLIB_EXT}
-    - test -f ${PREFIX}/include/lshpack.h
-    - test -f ${PREFIX}/include/lsxpack_header.h
+    - test -f ${PREFIX}/lib/libls-hpack${SHLIB_EXT}  # [unix]
+    - test -f ${PREFIX}/include/lshpack.h  # [unix]
+    - test -f ${PREFIX}/include/lsxpack_header.h  # [unix]
+    - if not exist %LIBRARY_BIN%\ls-hpack.dll exit 1  # [win]
+    - if not exist %LIBRARY_LIB%\ls-hpack.lib exit 1  # [win]
+    - if not exist %LIBRARY_INC%\lshpack.h exit 1  # [win]
+    - if not exist %LIBRARY_INC%\lsxpack_header.h exit 1  # [win]
 
 about:
   home: https://github.com/litespeedtech/ls-hpack
