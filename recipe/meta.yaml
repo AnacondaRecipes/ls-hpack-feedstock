@@ -34,8 +34,10 @@ test:
 about:
   home: https://github.com/litespeedtech/ls-hpack
   license: MIT
-  license_family: MIT
-  license_file: LICENSE
+  license_family: OTHER
+  license_file:
+    - LICENSE
+    - deps/xxhash/xxhash.h
   summary: LiteSpeed HPACK (RFC7541) Library
   description: |
     LS-HPACK provides functionality to encode and decode HTTP headers using
